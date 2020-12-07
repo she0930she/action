@@ -1,7 +1,12 @@
 .navbar {
     box-shadow: 0px 5px 10px rgba(0, 0, 0, .2);
 }
-
+.div_nav{
+    display: flex;
+}
+.divNav_right{
+    float:right;
+}
 
 #header {
     padding: 40px 0px;
