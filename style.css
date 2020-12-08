@@ -27,15 +27,24 @@ align-items: center;
     width:50%;
 }
 .title_border{
-    border-bottom: 2pt solid black;
+    /* border-bottom: 2pt solid black; */
     /* text-align: center; */
     /* width:50%; */
 }
-.table{
-    
+table{
+    /* border-collapse: collapse; */
+    width:30%;
 }
 
-.C-table table, .C-table th, .C-table td {
+/* .C-table table, .C-table th, .C-table td {
     border: 1px solid black;
     border-collapse: collapse;
-}
+} */
+td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  /* tr:nth-child(even) {
+    background-color: #dddddd;
+  } */

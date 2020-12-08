@@ -1,48 +1,62 @@
 //window.alert("this is js!!")
 $("#formsubmit").submit(function (e) {
   e.preventDefault();
-  window.alert("this is js!!")
-  console.log("clicked")
-  // const user = $("#user option:selected").text();
-  // const secA1 = $("#secA1").val();
-  // const secA2 = $("#secA2").val();
-  // const secA3 = $("#secA3").val();
-  // const secA4 = $("#secA4").val();
-  // const secA5 = $("#secA5").val();
-  // const secB1 = $("#secB1").val();
-  // const secB2 = $("#secB2").val();
-  // const secB3 = $("#secB3").val();
-  // const secB4 = $("#secB4").val();
-  // const secB5 = $("#secB5").val();
-  // const postNumber = $("#postNumber option:selected").text()
-  // const selC = $("#selC option:selected").text()
-  // const storyN1 = $("#storyN1 option:selected").text()
-  // const selD1 = $("#selD1 option:selected").text()
-  // const storyN2 = $("#storyN2 option:selected").text()
-  // const selD2 = $("#selD2 option:selected").text()
-  // // const selE = $("selEName input:selected").text()
-  // const obj = {
-  //   user,
-  //   secA1, secA2, secA3, secA4, secA5,
-  //   secB1,
-  //   secB2,
-  //   secB3,
-  //   secB4,
-  //   secB5,
-  //   postNumber, selC,
-  //   storyN1, selD1, storyN2, selD2,
-  //   // selE,
-  //   createdAt: new Date().getTime(),
-  // };
-  // console.log("obj", obj)
-  // db.collection("sectionA").add(obj)
-  //   .then(() => {
-  //     console.log("success")
-  //   })
-  //   .catch(err => {
-  //     console.log(err)
-  //   });
+  //console.log("clicked")
+  const user = $("#user option:selected").text();
+  const secA1 = $("#secA1").val();
+  const secA2 = $("#secA2").val();
+  const secA3 = $("#secA3").val();
+  const secA4 = $("#secA4").val();
+  const secA5 = $("#secA5").val();
+  const secB1 = $("#secB1").val();
+  const secB2 = $("#secB2").val();
+  const secB3 = $("#secB3").val();
+  const secB4 = $("#secB4").val();
+  const secB5 = $("#secB5").val();
+  const postNumber = $("#postNumber option:selected").text()
+  const selC = $("#selC option:selected").text()
+  const storyN1 = $("#storyN1 option:selected").text()
+  const selD1 = $("#selD1 option:selected").text()
+  const storyN2 = $("#storyN2 option:selected").text()
+  const selD2 = $("#selD2 option:selected").text()
+  const selE = [];
+  //目標讓有選到"on",沒選到的變成"off",最後render出來0...,1...
+  //如何讓on 變成Yes, no
+  if ($("input[name='selEName']:checked")) {
+    $.each($("input[name='selEName']:checked"), function () {
+      selE.push($(this).val());
+    })
+  } else {
+    selE.push("off")
+  }
+  // $.each($("input[name='selEName']:checked"), function () {
+  //   selE.push($(this).val());
+  // })
+  console.log("selE", selE)
+  //const selE = $("selEName:checkbox").text()
+  const obj = {
+    user,
+    secA1, secA2, secA3, secA4, secA5,
+    secB1,
+    secB2,
+    secB3,
+    secB4,
+    secB5,
+    postNumber, selC,
+    storyN1, selD1, storyN2, selD2,
+    selE,
+    createdAt: new Date().getTime(),
+  };
+  console.log("obj", obj)
+  db.collection("sectionA").add(obj)
+    .then(() => {
+      console.log("success")
+    })
+    .catch(err => {
+      console.log(err)
+    });
 });
+
 db.collection("sectionA").get()
   .then(collection => {
     const secARender = [];
@@ -51,7 +65,7 @@ db.collection("sectionA").get()
       const secA = doc.data();
       secARender.push(secA);
     })
-    console.log("secARender", secARender)
+    //console.log("secARender", secARender)
     secARender.forEach(oneDocu => {
       $("#secARender").append(`
       <li>${oneDocu.user}
@@ -66,7 +80,24 @@ db.collection("sectionA").get()
       <h4>貼文/Post</h4>
       貼文數：${oneDocu.postNumber},  主題：${oneDocu.selC}
       <h4>限時動態/story</h4>
-      
+      動態數：${oneDocu.storyN1},  主題：${oneDocu.selD1}
+      <br>
+      動態數：${oneDocu.storyN2},  主題：${oneDocu.selD2}
+      <br>
+      <h4>行動總結</h4>
+      留言互動20人（發文或限時動態回覆）:${oneDocu.selE[0]},
+      <br>
+      按讚人數20人:${oneDocu.selE[1]},
+      <br>
+      加好友100人:${oneDocu.selE[2]},
+      <br>
+      發文1~2:${oneDocu.selE[3]},
+      <br>
+      限時動態 2~5種（保持永遠有限動的狀態）:${oneDocu.selE[4]},
+      <br>
+      敲3~5個人有效聊天及邀約（可同人或不同人）:${oneDocu.selE[5]},
+      <br>
+      群組分享每日產品:${oneDocu.selE[6]}
       </li>
       <br>
       `);
@@ -176,10 +207,72 @@ db.collection("demo").get()
 //   firebaseRef.child("text").set("some value")
 // }
 
+
 //History.index
 $("#searchBtn").click(function (e) {
-  window.alert("this is js!!")
+  //window.alert("this is js!!")
   console.log("searchBtn")
   e.preventDefault();
+  const user = $("#user option:selected").text();
+  console.log("user", user)
+  // "only" render certain document of this user
 
 })
+db.collection("sectionA").get()
+  .then(collection => {
+    const secRender = []
+    collection.forEach(doc => {
+      //console.log("doc.data()", doc.data())
+      const userOnDocu = doc.data().user
+      console.log("userOnDocu", userOnDocu)
+      if (user == userOnDocu) {
+        console.log("sec", sec)
+        const sec = doc.data();
+        secRender.push(sec);
+        //console.log("secRender", secRender)
+
+        //render the document only user specific
+        secRender.forEach(oneDocu => {
+          $("#historyRender").append(`
+          <li>${oneDocu.user}
+          <h4>3~5個人有效聊天及邀約</h4>
+          1:${oneDocu.secA1}  ,2:${oneDocu.secA2}  ,3:${oneDocu.secA3}
+          4:${oneDocu.secA4}
+          5:${oneDocu.secA5}
+          <h4>留言互動20人</h4>
+          1:${oneDocu.secB1},2:${oneDocu.secB2},3:${oneDocu.secB3}
+          4:${oneDocu.secB4}
+          5:${oneDocu.secB5}
+          <h4>貼文/Post</h4>
+          貼文數：${oneDocu.postNumber},  主題：${oneDocu.selC}
+          <h4>限時動態/story</h4>
+          動態數：${oneDocu.storyN1},  主題：${oneDocu.selD1}
+          <br>
+          動態數：${oneDocu.storyN2},  主題：${oneDocu.selD2}
+          <br>
+          <h4>行動總結</h4>
+          留言互動20人（發文或限時動態回覆）:${oneDocu.selE[0]},
+          <br>
+          按讚人數20人:${oneDocu.selE[1]},
+          <br>
+          加好友100人:${oneDocu.selE[2]},
+          <br>
+          發文1~2:${oneDocu.selE[3]},
+          <br>
+          限時動態 2~5種（保持永遠有限動的狀態）:${oneDocu.selE[4]},
+          <br>
+          敲3~5個人有效聊天及邀約（可同人或不同人）:${oneDocu.selE[5]},
+          <br>
+          群組分享每日產品:${oneDocu.selE[6]}
+          </li>
+          <br>
+          `);
+        })
+      }
+      console.log("secRender", secRender)
+    })
+
+  })
+  .catch(err => {
+    console.log("err", err)
+  })
